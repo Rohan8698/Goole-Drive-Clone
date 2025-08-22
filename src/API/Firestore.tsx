@@ -177,9 +177,15 @@ export const removePermission = async (fileId: string, email: string) => {
 };
 
 // Generate and set a public link for a file, with optional expiration (in hours)
-export const setPublicLink = async (fileId: string, publicLink: string, expiresInHours?: number) => {
+export const setPublicLink = async (
+  fileId: string,
+  publicLink: string,
+  expiresInHours?: number,
+) => {
   const fileRef = doc(files, fileId);
-  const expiresAt = expiresInHours ? new Date(Date.now() + expiresInHours * 3600 * 1000) : null;
+  const expiresAt = expiresInHours
+    ? new Date(Date.now() + expiresInHours * 3600 * 1000)
+    : null;
   try {
     await updateDoc(fileRef, {
       public_link: publicLink,
@@ -215,21 +221,24 @@ export const incrementPublicLinkViews = async (fileId: string) => {
   const fileRef = doc(files, fileId);
   try {
     await updateDoc(fileRef, {
-      public_link_views: (await getDoc(fileRef)).data()?.public_link_views + 1 || 1,
+      public_link_views:
+        ((await getDoc(fileRef)).data()?.public_link_views || 0) + 1,
     });
   } catch (error) {
     console.error("Error incrementing public link views:", error);
   }
 };
 
-// Get file by public link
+// Get file by public link (✅ fixed)
 export const getFileByPublicLink = async (publicLink: string) => {
   try {
     const filesQuery = query(files, where("public_link", "==", publicLink));
     const querySnapshot = await getDocs(filesQuery);
-    if (!querySnapshot.empty) {
-      return querySnapshot.docs[0].data();
+
+    if (!querySnapshot.empty && querySnapshot.docs.length > 0) {
+      return querySnapshot.docs[0]!.data();
     }
+
     return null;
   } catch (error) {
     console.error("Error fetching file by public link:", error);
