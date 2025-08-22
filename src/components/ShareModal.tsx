@@ -13,7 +13,8 @@ interface ShareModalProps {
 
 export default function ShareModal({ fileId, onClose }: ShareModalProps) {
   // Debug: log when ShareModal is rendered and with what props
-  console.log('ShareModal rendered with fileId:', fileId);
+  console.log("ShareModal rendered with fileId:", fileId);
+
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<PermissionRole>("viewer");
   const [permissions, setPermissions] = useState<
@@ -35,9 +36,9 @@ export default function ShareModal({ fileId, onClose }: ShareModalProps) {
     setSaving(true);
     try {
       await addPermission(fileId, email, role);
-    } catch (err) {
-      console.error('Error adding permission:', err);
-      alert('Failed to add permission: ' + (err?.message || err));
+    } catch (err: any) {
+      console.error("Error adding permission:", err);
+      alert("Failed to add permission: " + (err?.message || String(err)));
     }
     setSaving(false);
     setEmail("");
