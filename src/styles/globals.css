@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🌍 Global resets & smoothness */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gray-50 text-gray-800 antialiased;
+  font-family: "Inter", sans-serif;
+}
+
+/* 🔥 Stylish Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #3b82f6);
+  border-radius: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4f46e5, #2563eb);
+}
+
+/* ✨ Selection color */
+::selection {
+  background: #6366f1;
+  color: white;
+}
+
+/* 🔗 Link styling */
+a {
+  @apply text-indigo-600 transition-colors duration-200;
+}
+a:hover {
+  @apply text-indigo-800 underline;
+}
+
+/* 🖱️ Button base style */
+button {
+  @apply rounded-xl px-4 py-2 font-medium transition-all duration-200;
+}
+button:active {
+  transform: scale(0.97);
+}
